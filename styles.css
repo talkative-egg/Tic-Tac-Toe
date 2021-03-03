@@ -1,3 +1,23 @@
+h1{
+    text-align: center;
+}
+
 .game-container{
     display: grid;
+    grid-template-rows: repeat(3, 100px);
+    grid-template-columns: repeat(3, 100px);
+    align-items: center;
+    justify-content: center;
+}
+
+.board-piece{
+    
+    width: 100px;
+    height: 100px;
+    font-size: 70px;
+    text-align: center;
+    line-height: 90px;
+    border-width: 5px;
+    border-color: black;
+    border-style: solid;
 }
