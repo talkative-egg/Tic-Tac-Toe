@@ -8,6 +8,7 @@ const gameBoard = (() => {
 
     const setSpot = function(spot, symbol){
         gameboard[spot] = symbol;
+        displayController.render(gameboard);
     }
 
     const gameEnd = function(){
