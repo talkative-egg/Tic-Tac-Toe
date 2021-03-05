@@ -6,9 +6,15 @@ const gameBoard = (() => {
         return gameboard[spot] !== "";
     }
 
-    const setSpot = function(spot){
-        gameboard[spot] = "X";
-        //displayController.render(gameboard);
+    const setSpot = function(values){
+        gameboard[values.spot - 1] = values.symbol;
+        if(gameEnd()){
+            events.emit("gameEnd");
+        }
+    }
+
+    const resetBoard = function(){
+        gameboard = ["", "", "", "", "", "", "", "", ""];
     }
 
     const gameEnd = function(){
@@ -31,7 +37,8 @@ const gameBoard = (() => {
     }
 
     events.on("divClicked", setSpot);
+    events.on("reset", resetBoard);
 
-    return {checkSpot, setSpot, gameEnd};
+    return {checkSpot, setSpot, gameEnd, gameboard};
 
 })();
