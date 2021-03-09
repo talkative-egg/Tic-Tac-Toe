@@ -4,15 +4,15 @@ const displayController = (() => {
     const startButton = document.querySelector("#start-button");
     const displayScreen = document.querySelector(".display-text");
     let currentPlayer = null;
-    const firstPlayer = Player("O")
-    const secondPlayer = Player("X");
+    let firstPlayer = null;
+    let secondPlayer = null;
 
     const updatePiece = function(e){
         if(checkSpot(e.target.id)){
-            let symbol = currentPlayer.symbol;
+            const symbol = currentPlayer.getSymbol()
             e.target.textContent = symbol;
             currentPlayer = (currentPlayer === firstPlayer)? secondPlayer:firstPlayer;
-            displayScreen.textContent = `It's ${currentPlayer.symbol}'s turn`;
+            displayScreen.textContent = `It's ${currentPlayer.getName()}'s turn (${currentPlayer.getSymbol()})`;
             events.emit("divClicked", {spot: e.target.id, symbol});
         }
     }
@@ -28,6 +28,13 @@ const displayController = (() => {
     }
 
     const gameEnd = function(winner){
+
+        if(winner === "O"){
+            winner = firstPlayer.getName();
+        }else if(winner == "X"){
+            winner = secondPlayer.getName();
+        }
+
         displayScreen.textContent = (winner == "tie")? "TIE":`The winner is ${winner}`;
 
         boardPieces.forEach(e => {
@@ -40,8 +47,12 @@ const displayController = (() => {
     }
 
     const gameStart = function(){
+        const firstPlayerName = document.querySelector("#player1-name").value;
+        firstPlayer = Player("O", firstPlayerName);
+        const secondPlayerName = document.querySelector("#player2-name").value;
+        secondPlayer = Player("X", secondPlayerName);
         currentPlayer = firstPlayer;
-        displayScreen.textContent = `It's ${currentPlayer.symbol}'s turn`;
+        displayScreen.textContent = `It's ${currentPlayer.getName()}'s turn (${currentPlayer.getSymbol()})`;
         clearBoard();
         activateBoard();
         events.emit("reset");

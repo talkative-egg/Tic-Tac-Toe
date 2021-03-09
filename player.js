@@ -1,6 +1,12 @@
-const Player = (symbol) => {
+const Player = (symbol, name) => {
 
-    
+    const getName = function(){
+        return name;
+    }
 
-    return {symbol};
+    const getSymbol = function(){
+        return symbol;
+    }
+
+    return {getName, getSymbol};
 };
